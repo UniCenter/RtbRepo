@@ -4,7 +4,7 @@ public class Application
 {
 	public void AnalysisAndExtractFeature(String inputDir,String dataDir,String resultDir)
 	{
-	
+		
 	}
 	
 	public void GenerateTrainingData(String inputDir,String dataDir,String resultDir)

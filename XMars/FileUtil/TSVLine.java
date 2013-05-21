@@ -24,12 +24,13 @@ public class TSVLine
 	}
 	public String GetColumnValue(String columnName)
 	{
-		if(!_columnMapping.containsKey(columnName))
-		{
-			return null;
-		}
-		int columnIndex = _columnMapping.get(columnName);
-		return _fields[columnIndex];
+		return _columnMapping.contains(columnName) ? _fields[_columnMapping.get(columnName)] : null;
+//		if(!_columnMapping.containsKey(columnName))
+//		{
+//			return null;
+//		}
+//		int columnIndex = _columnMapping.get(columnName);
+//		return _fields[columnIndex];
 	}
 	public boolean SetColumnValue(String columnName, String columnValue)
 	{
@@ -42,14 +43,15 @@ public class TSVLine
 		return true;
 	}
 	public String ToString()
-	{//可能有性能问题
-		String newLine = _fields[0];
+	{
+		//rewrite by zhangcen
+		StringBuilder sbd = new StringBuilder(10000);//default as 10000, which can be extended automatically
+		sbd.append(_fields[0]);
 		for(int i = 1; i < _fields.length; i ++ )
 		{
-			newLine = newLine + _spliter + _fields[i];
+			sbd.append(_spliter).append(_fields[i]);
 		}
-		return newLine;
-	
+		return sbd.toString();
 	}
 	
 }
