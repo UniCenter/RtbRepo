@@ -1,5 +1,6 @@
 package XMars.FileUtil;
 
-public class ExtractionReader {
+public class ExtractionReader 
+{
 
 }
