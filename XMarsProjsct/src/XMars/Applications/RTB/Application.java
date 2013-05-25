@@ -1,7 +1,6 @@
 package XMars.Applications.RTB;
-
-import java.io.IOException;
 import XMars.FileUtil.*;
+import java.io.IOException;
 import XMars.Learning.Common.*;
 import XMars.Learning.LibLinearUtil.*;
 
@@ -22,7 +21,7 @@ public class Application
 			writer.WriteExtraction(dataItem);
 			
 		}
-		featureAnalyzer.GetOverview().DumpToFile(resultDir+"/FeatureView.txt");
+		FeatureViewUtil.DumpOverviewToFile(featureAnalyzer.GetOverview(), resultDir+"/FeatureView.txt");
 		reader.Close();
 		writer.Close();
 	}
@@ -30,8 +29,8 @@ public class Application
 	public void GenerateTrainingData(String inputDir,String dataDir,String resultDir) throws IOException
 	{
 		RTBFeatureExtractor extractor = new RTBFeatureExtractor(dataDir);
-		FeatureOverview dataSetView = FeatureOverview.CreateFromFile(dataDir+"/FeatureView.txt");
-		CompactFeatureEncoder featureEncoder = new CompactFeatureEncoder(dataSetView);
+		FeatureOverview overview = FeatureViewUtil.LoadOverviewFromFIle(dataDir+"/FeatureView.txt");
+		CompactFeatureEncoder featureEncoder = new CompactFeatureEncoder(overview);
 		ItemEncoder itemEncoder=new ItemEncoder(featureEncoder);
 		LibLinearWriter writer = new LibLinearWriter(resultDir+"/train.txt");
 		RTBDataReader reader = new RTBDataReader(inputDir+"/pvclicklog.txt");
@@ -54,8 +53,9 @@ public class Application
 		RTBFeatureExtractor extractor = new RTBFeatureExtractor(metaDataDir);
 		LibLinearLRModel model = new LibLinearLRModel();
 		model.LoadFromFile(resultDir+"/model.txt");
-		CompactFeatureEncoder featureEncoder = new CompactFeatureEncoder(FeatureOverview.CreateFromFile(metaDataDir+"/FeatureView.txt"));
-
+		
+		FeatureOverview overview = FeatureViewUtil.LoadOverviewFromFIle(metaDataDir+"/FeatureView.txt");
+		CompactFeatureEncoder featureEncoder = new CompactFeatureEncoder(overview);
 		SimplePredictor predictor = new SimplePredictor(featureEncoder,new LibLinearPredictor(),model);
 		RTBDataReader reader = new RTBDataReader(inputDir+"/pvclicklog.txt");
 		EvaluationWriter writer = new EvaluationWriter(resultDir+"/pred.txt");
