@@ -11,7 +11,8 @@ public class FeatureSetView
 	public int MinFeatureId;
 	public int MaxFeatureValue;
 	public int MinFeatureValue;
-	TreeMap<Integer,Integer> FeatureCount = new TreeMap<Integer,Integer>();
+	public TreeMap<Integer,FeatureImpInfo> FeatureCount = new TreeMap<Integer,FeatureImpInfo>();
+	
 	public FeatureSetView(FeatureSetInfo featureSet)
 	{
 		_featureSet = featureSet;
@@ -22,5 +23,22 @@ public class FeatureSetView
 	public FeatureSetInfo GetFeatureSet()
 	{
 		return _featureSet;
+	}
+	public Integer[] GetFeatureIdList()
+	{
+		Integer[] keyList = (Integer[]) FeatureCount.keySet().toArray();
+		return keyList;
+	}
+	
+	public Vector<FeatureImpInfo> GetSortedByPv()
+	{
+		Object[] values = FeatureCount.values().toArray();
+		Arrays.sort(values);
+		Vector<FeatureImpInfo> featureImps = new Vector<FeatureImpInfo>(values.length);
+		for(int i = 0;i < values.length; i ++)
+		{
+			featureImps.add((FeatureImpInfo) values[i]);
+		}
+		return featureImps;
 	}
 }

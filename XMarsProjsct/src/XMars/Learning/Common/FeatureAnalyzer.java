@@ -24,7 +24,8 @@ public class FeatureAnalyzer
 				_overview.FeatureViews.add(new FeatureSetView(featureSet));
 			}
 			FeatureSetView featureSetView = _overview.FeatureViews.get(_featureSetMapping.get(featureSetId));
-			int localFeatureId = dataItem.Features.get(i).getLocalFeatureId();
+			Feature localFeature = dataItem.Features.get(i);
+			int localFeatureId = localFeature.getLocalFeatureId();
 			int featureValue = dataItem.Features.get(i).getFeatureValue();
 			if(featureValue > featureSetView.MaxFeatureValue)
 			{
@@ -45,11 +46,14 @@ public class FeatureAnalyzer
 			featureSetView.TotalFeatureCount++;
 			if(!featureSetView.FeatureCount.containsKey(localFeatureId))
 			{
-				featureSetView.FeatureCount.put(localFeatureId, 1);
+				
+				featureSetView.FeatureCount.put(localFeatureId, new FeatureImpInfo(localFeatureId, 1));
 			}
 			else
 			{
-				featureSetView.FeatureCount.put(localFeatureId, featureSetView.FeatureCount.get(localFeatureId) + 1);
+				FeatureImpInfo imp = featureSetView.FeatureCount.get(localFeatureId) ;
+				imp.ImpCount = imp.ImpCount+1;
+				featureSetView.FeatureCount.put(localFeatureId, imp);
 			}
 			if(!counted)
 			{

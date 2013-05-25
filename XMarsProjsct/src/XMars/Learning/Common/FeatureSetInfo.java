@@ -15,8 +15,6 @@ public final class FeatureSetInfo
 		return _description;
 	}
 	public FeatureSetInfo(int featureSetId,
-						 	//int offset,
-							//int maxFeatureCount,
 							String description)
 	{
 		_featureSetId = featureSetId;
