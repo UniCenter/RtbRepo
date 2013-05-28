@@ -42,14 +42,15 @@ public class TSVLine
 		return true;
 	}
 	public String ToString()
-	{//可能有性能问题
-		String newLine = _fields[0];
-		for(int i = 1; i < _fields.length; i ++ )
+	{
+		//modified by zhangcen
+		StringBuilder sbd = new StringBuilder(10000);
+		sbd.append(_fields[0]);
+		for(int i = 0; i < _fields.length; i++)
 		{
-			newLine = newLine + _spliter + _fields[i];
+			sbd.append(_spliter).append(_fields[i]);
 		}
-		return newLine;
-	
+		return sbd.toString();
 	}
 	
 }
