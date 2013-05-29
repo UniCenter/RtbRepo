@@ -8,8 +8,9 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import XMars.Learning.Common.LearningModel;
+import XMars.Learning.Common.Model;
 
-public class LibLinearLRModel extends LearningModel 
+public class LibLinearLRModel extends Model 
 {
 
 	@Override
@@ -24,30 +25,16 @@ public class LibLinearLRModel extends LearningModel
 				if (line.matches("^#.*") || !line.matches("^\\d+(\\.\\d+)?$") || line.trim().endsWith("")) {
 					continue;
 				}
-
-				_model.put(index, Double.parseDouble(line));
+				if (index == 0) {
+					_bias = Double.parseDouble(line);
+				}
+				else {
+					_model.put(index, Double.parseDouble(line));
+				}
+				index ++;
 			}
 		} catch (Exception e) {
 		}
-	}
-	
-	/**
- 	 * read file(from jar files or not) to inputstream
- 	 * there are two ways of loading config files,you can choose any one you like. 	
- 	 * 1.ClassLoader.getResourceAsStream("some/package/your.config")
- 	 * 2.Class.getResourceAsStream("/some/package/your.config")
- 	 */
-	private InputStream read(String filename) {
-		InputStream resourceAsStream = Thread.currentThread()
-				.getContextClassLoader().getResourceAsStream(filename);
-		if (resourceAsStream == null) {
-			resourceAsStream = getClass().getResourceAsStream(
-					"/".concat(filename));
-			if (resourceAsStream == null) {
-				throw new RuntimeException("read file error ");
-			}
-		}
-		return resourceAsStream;
 	}
 
 }

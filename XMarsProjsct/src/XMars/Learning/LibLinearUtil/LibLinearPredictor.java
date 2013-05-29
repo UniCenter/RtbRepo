@@ -2,13 +2,13 @@ package XMars.Learning.LibLinearUtil;
 
 import XMars.Learning.Common.EncodedItem;
 import XMars.Learning.Common.IPredictor;
-import XMars.Learning.Common.LearningModel;
+import XMars.Learning.Common.Model;
 
 public class LibLinearPredictor implements IPredictor {
 
 	
 	@Override
-	public double Predict(EncodedItem encodedItem, LearningModel model) 
+	public double Predict(EncodedItem encodedItem, Model model) 
 	{
 		double prob = 0.0;
 		double base = 0.0;
@@ -18,7 +18,7 @@ public class LibLinearPredictor implements IPredictor {
 			}
 		}
 		
-		base += model._model.get(0);
+		base += model._bias;
 		prob = 1/(1+Math.exp(-base));
 		
 		return prob;
