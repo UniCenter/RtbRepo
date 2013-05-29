@@ -4,5 +4,5 @@ public interface IPredictor
 {
 	//public double Predict(EncodedItem item,LearningModel model);
 
-	public abstract double Predict(EncodedItem encodedItem, LearningModel model);
+	public abstract double Predict(EncodedItem encodedItem, Model model);
 }
