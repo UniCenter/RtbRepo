@@ -10,8 +10,18 @@ public class LibLinearPredictor implements IPredictor {
 	@Override
 	public double Predict(EncodedItem encodedItem, LearningModel model) 
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		double prob = 0.0;
+		double base = 0.0;
+		for (int i=0;i<encodedItem.Features.size();i++) {
+			if (model._model.containsKey(encodedItem.Features.get(i).FeatureId)) {
+				base += model._model.get(encodedItem.Features.get(i).FeatureId);
+			}
+		}
+		
+		base += model._model.get(0);
+		prob = 1/(1+Math.exp(-base));
+		
+		return prob;
 	}
 
 }
