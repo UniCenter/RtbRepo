@@ -4,9 +4,9 @@ public final class SimplePredictor
 {
 	//private IFeatureEncoder _featureEncoder;
 	private IPredictor _predictor;
-	private LearningModel _model;
+	private Model _model;
 	private ItemEncoder _itemEncoder ;//= new ItemEncoder();
-	public SimplePredictor(IFeatureEncoder featureEncoder,IPredictor predictor, LearningModel model)
+	public SimplePredictor(IFeatureEncoder featureEncoder,IPredictor predictor, Model model)
 	{
 		_itemEncoder = new ItemEncoder(featureEncoder);
 		_predictor = predictor;

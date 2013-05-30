@@ -4,7 +4,7 @@ public final class Feature
 {
 	private FeatureSetInfo _featureSet;
 	private LatentFeature _latentFeature;
-	private int _localFeatureId;
+	private long _localFeatureId;
 	private int _featureValue;
     public Feature(FeatureSetInfo featureSet,
 		    		int localFeatureId,
@@ -32,7 +32,7 @@ public final class Feature
     public LatentFeature getLatentFeature() {
     	return _latentFeature;
     }
-	public int getLocalFeatureId() {
+	public long getLocalFeatureId() {
 		return _localFeatureId;
 	}
 	public int getFeatureValue() {

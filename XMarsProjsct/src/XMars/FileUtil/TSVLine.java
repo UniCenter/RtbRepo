@@ -2,23 +2,23 @@ package XMars.FileUtil;
 import java.util.*;
 public class TSVLine 
 {
-	private Hashtable<String, Integer> _columnMapping = null;
+	private HashMap<String, Integer> _columnMapping = null;
 	private String _spliter;
 	String[] _fields;
 	
-	public TSVLine(String txtLine,String spliter,Hashtable<String, Integer> columnMapping)
+	public TSVLine(String txtLine,String spliter,HashMap<String, Integer> columnMapping)
 	{
 		_columnMapping = columnMapping;
 		_spliter = spliter;
 		_fields = txtLine.split(_spliter);
 	}
-	private TSVLine(String spliter,Hashtable<String, Integer> columnMapping)
+	private TSVLine(String spliter,HashMap<String, Integer> columnMapping)
 	{
 		_columnMapping = columnMapping;
 		_spliter = spliter;
 		_fields = new String[_columnMapping.size()];
 	}
-	public static TSVLine NewTSVLine(String spliter,Hashtable<String, Integer> columnMapping)
+	public static TSVLine NewTSVLine(String spliter,HashMap<String, Integer> columnMapping)
 	{
 		return new TSVLine(spliter,columnMapping);
 	}
@@ -43,7 +43,6 @@ public class TSVLine
 	}
 	public String ToString()
 	{
-		//modified by zhangcen
 		StringBuilder sbd = new StringBuilder(10000);
 		sbd.append(_fields[0]);
 		for(int i = 0; i < _fields.length; i++)

@@ -44,13 +44,13 @@ public class RTBInstance extends DataInstance
 	public static RTBInstance NewInstance(TSVLine tsvLine)
 	{
 		RTBInstance rtbInst = new RTBInstance();
-		rtbInst._domainHash = tsvLine.GetColumnValue("Domain");
-		rtbInst._userHash = tsvLine.GetColumnValue("PinyouId");
-		rtbInst._slotHash = tsvLine.GetColumnValue("Slot");
-		rtbInst._adHash = tsvLine.GetColumnValue("Adid");
-		rtbInst._slotType = Integer.parseInt(tsvLine.GetColumnValue("SlotType"));
-		rtbInst._visualType = Integer.parseInt(tsvLine.GetColumnValue("VisualType"));
-		rtbInst._regionCode = Integer.parseInt(tsvLine.GetColumnValue("Region"));
+		rtbInst._domainHash = tsvLine.GetColumnValue("domain");
+		rtbInst._userHash = tsvLine.GetColumnValue("ipinyouId");
+		rtbInst._slotHash = tsvLine.GetColumnValue("adSlotID");
+		rtbInst._adHash = tsvLine.GetColumnValue("creativeID");
+		rtbInst._slotType = Integer.parseInt(tsvLine.GetColumnValue("adSlotFormat"));
+		rtbInst._visualType = Integer.parseInt(tsvLine.GetColumnValue("adSlotVisibility"));
+		rtbInst._regionCode = Integer.parseInt(tsvLine.GetColumnValue("region"));
 		return rtbInst;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.*;
 public class CompactFeatureEncoder implements IFeatureEncoder {
 
 	Hashtable<Integer,Integer> _featureSetMapping = new Hashtable<Integer,Integer>();
-	Vector<Hashtable<Integer,Integer> > _featureMapping = new Vector<Hashtable<Integer,Integer> >();
+	Vector<Hashtable<Long,Integer> > _featureMapping = new Vector<Hashtable<Long,Integer> >();
 	public CompactFeatureEncoder(FeatureOverview overview)
 	{
 		int compactFeatureId = 1 ;
@@ -16,11 +16,11 @@ public class CompactFeatureEncoder implements IFeatureEncoder {
 			if(! _featureSetMapping.containsKey(featureSetId))
 			{
 				_featureSetMapping.put(featureSetId, _featureMapping.size());
-				_featureMapping.add(new Hashtable<Integer,Integer>() );
+				_featureMapping.add(new Hashtable<Long,Integer>() );
 			}
 			int featureSetIndex = _featureSetMapping.get(featureSetId);
-			Hashtable<Integer,Integer> featureMapping = _featureMapping.get(featureSetIndex);
-			Integer[] localFeatures = featureView.GetFeatureIdList();
+			Hashtable<Long,Integer> featureMapping = _featureMapping.get(featureSetIndex);
+			Long[] localFeatures = featureView.GetFeatureIdList();
 			for(int j = 0;j < localFeatures.length; j++)
 			{
 				featureMapping.put(localFeatures[j],compactFeatureId);
@@ -28,7 +28,7 @@ public class CompactFeatureEncoder implements IFeatureEncoder {
 			}
 			if(!featureMapping.containsKey(0))
 			{
-				featureMapping.put(0,compactFeatureId);
+				featureMapping.put((long)0,compactFeatureId);
 				compactFeatureId++;
 			}
 		}
@@ -38,8 +38,8 @@ public class CompactFeatureEncoder implements IFeatureEncoder {
 	{
 		EncodedFeature encodedFeature = new EncodedFeature();
 		int featureSetIndex = _featureSetMapping.get(feature.getFeatureSet().GetFeatureSetId());
-		Hashtable<Integer,Integer> featureMapping = _featureMapping.get(featureSetIndex);
-		int localId = feature.getLocalFeatureId();
+		Hashtable<Long,Integer> featureMapping = _featureMapping.get(featureSetIndex);
+		long localId = feature.getLocalFeatureId();
 		if(!featureMapping.containsKey(localId))
 		{
 			localId =0;

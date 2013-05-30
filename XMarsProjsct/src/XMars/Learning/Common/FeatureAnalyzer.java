@@ -25,7 +25,7 @@ public class FeatureAnalyzer
 			}
 			FeatureSetView featureSetView = _overview.FeatureViews.get(_featureSetMapping.get(featureSetId));
 			Feature localFeature = dataItem.Features.get(i);
-			int localFeatureId = localFeature.getLocalFeatureId();
+			long localFeatureId = localFeature.getLocalFeatureId();
 			int featureValue = dataItem.Features.get(i).getFeatureValue();
 			if(featureValue > featureSetView.MaxFeatureValue)
 			{

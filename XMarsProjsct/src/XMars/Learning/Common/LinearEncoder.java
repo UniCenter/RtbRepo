@@ -11,7 +11,7 @@ public class LinearEncoder implements IFeatureEncoder
 	public EncodedFeature EncodeFeature(Feature feature) 
 	{
 		EncodedFeature newFeature = new EncodedFeature();
-		newFeature.FeatureId = feature.getFeatureSet().GetFeatureSetId() *_slope + feature.getLocalFeatureId();
+		newFeature.FeatureId = (int) (feature.getFeatureSet().GetFeatureSetId() *_slope + feature.getLocalFeatureId());
 		newFeature.FeatureValue = feature.getFeatureValue();
 		return newFeature;
 	}

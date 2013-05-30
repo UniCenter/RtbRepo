@@ -5,61 +5,52 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Scanner;
 
-import XMars.CodingUtil.*;
 import XMars.FileUtil.*;
+import XMars.Util.*;
 
 public class RTBDataReader 
 {
-	//added by zhangcen
-	private BufferedReader bReader = null;
+	private Scanner _scanner;
 	private String[] columnNames = null;
 	
 	public RTBDataReader(String filePath)
 	{
 		try {
-			this.bReader = new BufferedReader(new FileReader(filePath));
+			this._scanner = new Scanner(new FileReader(filePath));
 		} catch (IOException e) 
 		{
 			System.out.printf("[Error] Init Reader Wrong in RTBDataReader.java, with File = %s, at %s\n", filePath, TimeUtil.getTimeStr());
 			e.printStackTrace();
 			System.exit(-1);
-		}//TODO maybe need a new way to construct the BufferedReader
+		}
 		
 		//set column names
 		this.setColumnNames();
 	}
-	/*
-	 * 该方法存疑，因为按行读入的话，无法直接判断是否直接是行尾
-	 */
+	
 	public boolean EndOfFile()
 	{
-		if(this.bReader == null)
+		if (this._scanner.hasNext())
 		{
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	public RTBInstance ReadRecord()
 	{
 		HashMap<String, Integer> columnMap = this.getColumnMap();
 		String spliter = "\t";
-		//supposed to get a TSVLine?
-		if(this.bReader != null)
+		if (!this.EndOfFile())
 		{
 			String line = null;
 			int lineCnt = 0;
 			try
 			{
-				while((line = this.bReader.readLine()) != null)
+				while((line = this._scanner.nextLine()) != null)
 				{
 					lineCnt++;
-					//TODO
-					/*
-					 * HashTable is from an older version of Java, 
-					 * and not working well with NULL pointer
-					 * my suggestion is to change it into HashMap
-					 */
 					TSVLine tsvLine = new TSVLine(line, spliter, columnMap);
 					/*
 					 * we also have some different definition of the column names here
@@ -76,9 +67,11 @@ public class RTBDataReader
 		}
 		return null;
 	}
-	public void Close()
-	{
 	
+	public void Close() throws IOException
+	{	if (this._scanner != null) {
+			this._scanner.close();
+		}
 	}
 	
 	private HashMap<String,Integer> getColumnMap()

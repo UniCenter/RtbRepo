@@ -23,7 +23,7 @@ public class ExtractionWriter {
 		Feature feature = dataItem.Features.get(0);
 		_writer.write(feature.getFeatureSet().GetFeatureSetId());
 		_writer.write(_fieldSpliter);
-		_writer.write(feature.getLocalFeatureId());
+		_writer.write("" + feature.getLocalFeatureId());
 		_writer.write(_fieldSpliter);
 		_writer.write(feature.getFeatureValue());
 		for(int i = 0; i< dataItem.Features.size();i++)
@@ -32,7 +32,7 @@ public class ExtractionWriter {
 			feature = dataItem.Features.get(i);
 			_writer.write(feature.getFeatureSet().GetFeatureSetId());
 			_writer.write(_fieldSpliter);
-			_writer.write(feature.getLocalFeatureId());
+			_writer.write("" + feature.getLocalFeatureId());
 			_writer.write(_fieldSpliter);
 			_writer.write(feature.getFeatureValue());
 		}

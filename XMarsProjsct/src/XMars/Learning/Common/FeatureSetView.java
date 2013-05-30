@@ -7,26 +7,26 @@ public class FeatureSetView
 	private FeatureSetInfo _featureSet;
 	public int TotalFeatureCount;
 	public int ItemCount;
-	public int MaxFeatureId;
-	public int MinFeatureId;
+	public long MaxFeatureId;
+	public long MinFeatureId;
 	public int MaxFeatureValue;
 	public int MinFeatureValue;
-	public TreeMap<Integer,FeatureImpInfo> FeatureCount = new TreeMap<Integer,FeatureImpInfo>();
+	public TreeMap<Long,FeatureImpInfo> FeatureCount = new TreeMap<Long,FeatureImpInfo>();
 	
 	public FeatureSetView(FeatureSetInfo featureSet)
 	{
 		_featureSet = featureSet;
 
-		MinFeatureId = Integer.MAX_VALUE;
+		MinFeatureId = Long.MAX_VALUE;
 		MinFeatureValue = Integer.MAX_VALUE;
 	}
 	public FeatureSetInfo GetFeatureSet()
 	{
 		return _featureSet;
 	}
-	public Integer[] GetFeatureIdList()
+	public Long[] GetFeatureIdList()
 	{
-		Integer[] keyList = (Integer[]) FeatureCount.keySet().toArray();
+		Long[] keyList =  (Long[]) FeatureCount.keySet().toArray();
 		return keyList;
 	}
 	

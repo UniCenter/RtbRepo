@@ -40,7 +40,7 @@ public class FeatureViewUtil
 		for(int i=0;i<featureImpList.size();i++)
 		{
 			FeatureImpInfo imp = featureImpList.get(i);
-			writer.write(imp.FeatureId);
+			writer.write("" + imp.FeatureId);
 			writer.write(":");
 			writer.write(imp.ImpCount);
 			writer.write("\n");
@@ -71,7 +71,7 @@ public class FeatureViewUtil
 				break;
 			}
 			String[] fields = line.split(":");
-			int featureId = Integer.parseInt(fields[0]);
+			long featureId = Long.parseLong(fields[0]);
 			int featureImp = Integer.parseInt(fields[1]);
 			featureSetView.FeatureCount.put(featureId, new FeatureImpInfo(featureId,featureImp));
 		}

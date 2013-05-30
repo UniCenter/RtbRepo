@@ -16,23 +16,4 @@ public abstract class Model {
 		}
 		return 0.0;
 	}
-	
-	/**
- 	 * read file(from jar files or not) to inputstream
- 	 * there are two ways of loading config files,you can choose any one you like. 	
- 	 * 1.ClassLoader.getResourceAsStream("some/package/your.config")
- 	 * 2.Class.getResourceAsStream("/some/package/your.config")
- 	 */
-	protected InputStream read(String filename) {
-		InputStream resourceAsStream = Thread.currentThread()
-				.getContextClassLoader().getResourceAsStream(filename);
-		if (resourceAsStream == null) {
-			resourceAsStream = getClass().getResourceAsStream(
-					"/".concat(filename));
-			if (resourceAsStream == null) {
-				throw new RuntimeException("read file error ");
-			}
-		}
-		return resourceAsStream;
-	}
 }

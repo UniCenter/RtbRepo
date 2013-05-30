@@ -7,16 +7,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+import XMars.FileUtil.FileUtil;
 import XMars.Learning.Common.LearningModel;
 import XMars.Learning.Common.Model;
 
 public class LibLinearLRModel extends Model 
 {
-
+	FileUtil _fileUtil = new FileUtil();
+	
 	@Override
 	public void LoadFromFile(String filePath) {
 		// TODO Auto-generated method stub
-		InputStream inputStream = read(filePath);
+		InputStream inputStream = _fileUtil.read(filePath);
 		String line = null;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));

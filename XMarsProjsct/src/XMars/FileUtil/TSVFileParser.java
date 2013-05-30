@@ -7,7 +7,7 @@ public class TSVFileParser
 	private BufferedReader _fileStream = null;
 	private boolean _inited = false;
 	private String _spliter;
-	private Hashtable<String, Integer>  _columnMapping;
+	private HashMap<String, Integer>  _columnMapping;
 	public TSVFileParser(BufferedReader stream, String spliter) throws IOException
 	{
 		String header = stream.readLine();
@@ -15,7 +15,7 @@ public class TSVFileParser
 		{
 			return;
 		}
-		_columnMapping = new Hashtable<String, Integer>(_defaultColumnSize);
+		_columnMapping = new HashMap<String, Integer>(_defaultColumnSize);
 		_fileStream = stream;
 		_spliter = spliter;
 		String[] columnNames = header.split(_spliter);

@@ -7,7 +7,7 @@ public class SequentialEncoder implements IFeatureEncoder
 	public EncodedFeature EncodeFeature(Feature feature) 
 	{
 		EncodedFeature encodedFeature = new EncodedFeature();
-		encodedFeature.FeatureId = feature.getLocalFeatureId();
+		encodedFeature.FeatureId = (int) feature.getLocalFeatureId();
 		return encodedFeature;
 	}
 
