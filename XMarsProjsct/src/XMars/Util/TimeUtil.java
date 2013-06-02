@@ -1,4 +1,4 @@
-package XMars.CodingUtil;
+package XMars.Util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

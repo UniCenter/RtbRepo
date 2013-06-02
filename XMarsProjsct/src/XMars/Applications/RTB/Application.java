@@ -13,13 +13,13 @@ public class Application
 		RTBDataReader reader = new RTBDataReader(inputDir+"/pvclicklog.txt");
 		ExtractionWriter writer = new ExtractionWriter(resultDir+"/extraction.txt");
 		
-		while(!reader.EndOfFile())
+		RTBInstance rtbInst = reader.ReadRecord();
+		while(rtbInst != null)
 		{
-			RTBInstance rtbInst = reader.ReadRecord();
 			DataItem dataItem = extractor.ExtractFeature(rtbInst);
 			featureAnalyzer.OnItemExtracted(dataItem);
 			writer.WriteExtraction(dataItem);
-			
+			rtbInst = reader.ReadRecord();
 		}
 		FeatureViewUtil.DumpOverviewToFile(featureAnalyzer.GetOverview(), resultDir+"/FeatureView.txt");
 		reader.Close();
@@ -35,13 +35,13 @@ public class Application
 		LibLinearWriter writer = new LibLinearWriter(resultDir+"/train.txt");
 		RTBDataReader reader = new RTBDataReader(inputDir+"/pvclicklog.txt");
 		
-		while(!reader.EndOfFile())
+		RTBInstance rtbInst = reader.ReadRecord();
+		while(rtbInst != null)
 		{
-			RTBInstance rtbInst = reader.ReadRecord();
 			DataItem dataItem = extractor.ExtractFeature(rtbInst);
 			EncodedItem encodedItem = itemEncoder.EncodeItem(dataItem);
 			writer.WriteInstance(encodedItem);
-			
+			rtbInst = reader.ReadRecord();
 		}
 		reader.Close();
 		writer.Close();
@@ -59,13 +59,13 @@ public class Application
 		SimplePredictor predictor = new SimplePredictor(featureEncoder,new LibLinearPredictor(),model);
 		RTBDataReader reader = new RTBDataReader(inputDir+"/pvclicklog.txt");
 		EvaluationWriter writer = new EvaluationWriter(resultDir+"/pred.txt");
-		while(!reader.EndOfFile())
+		RTBInstance rtbInst = reader.ReadRecord();
+		while(rtbInst != null)
 		{
-			RTBInstance rtbInst = reader.ReadRecord();
 			DataItem dataItem = extractor.ExtractFeature(rtbInst);
 			double predValue = predictor.Predict(dataItem);
 			writer.WriteRecord(dataItem.ItemId, predValue, dataItem.TargetValue);
-			
+			rtbInst = reader.ReadRecord();
 		}
 		writer.Close();
 		reader.Close();

@@ -7,7 +7,7 @@ public final class Feature
 	private long _localFeatureId;
 	private int _featureValue;
     public Feature(FeatureSetInfo featureSet,
-		    		int localFeatureId,
+		    		long localFeatureId,
 		    		int featureValue)
     {
     	_featureSet = featureSet;

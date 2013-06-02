@@ -37,11 +37,11 @@ public class FeatureAnalyzer
 			}
 			if(localFeatureId > featureSetView.MaxFeatureId)
 			{
-				featureSetView.MaxFeatureValue = featureValue;
+				featureSetView.MaxFeatureId = localFeatureId;
 			}
 			if(localFeatureId < featureSetView.MinFeatureId)
 			{
-				featureSetView.MaxFeatureValue =  featureValue;
+				featureSetView.MinFeatureId =  localFeatureId;
 			}
 			featureSetView.TotalFeatureCount++;
 			if(!featureSetView.FeatureCount.containsKey(localFeatureId))

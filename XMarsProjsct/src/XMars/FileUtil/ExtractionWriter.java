@@ -19,22 +19,25 @@ public class ExtractionWriter {
 		}
 		_writer.write(dataItem.TargetValue);
 		_writer.write(_featureSpliter);
-		_writer.write(dataItem.TargetValue);
+		_writer.write(dataItem.PredictValue);
+		_writer.write(_featureSpliter);
+		
 		Feature feature = dataItem.Features.get(0);
-		_writer.write(feature.getFeatureSet().GetFeatureSetId());
+		_writer.write("" + feature.getFeatureSet().GetFeatureSetId());
 		_writer.write(_fieldSpliter);
 		_writer.write("" + feature.getLocalFeatureId());
 		_writer.write(_fieldSpliter);
-		_writer.write(feature.getFeatureValue());
-		for(int i = 0; i< dataItem.Features.size();i++)
+		_writer.write("" +feature.getFeatureValue());
+		
+		for(int i = 1; i< dataItem.Features.size();i++)
 		{
 			_writer.write(_featureSpliter);
 			feature = dataItem.Features.get(i);
-			_writer.write(feature.getFeatureSet().GetFeatureSetId());
+			_writer.write("" + feature.getFeatureSet().GetFeatureSetId());
 			_writer.write(_fieldSpliter);
 			_writer.write("" + feature.getLocalFeatureId());
 			_writer.write(_fieldSpliter);
-			_writer.write(feature.getFeatureValue());
+			_writer.write("" + feature.getFeatureValue());
 		}
 		_writer.write("\n");
 	}

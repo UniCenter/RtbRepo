@@ -1,5 +1,6 @@
 package XMars.Applications.RTB;
 import XMars.Learning.Common.*;
+import XMars.Util.NumericalUtil;
 import XMars.FileUtil.*;
 import XMars.FeatureExtractor.Framework.*;
 
@@ -10,7 +11,7 @@ public class DomainFeatureHandler implements IFeatureHandler
 {
 	private static FeatureSetInfo _featureSet;
 	private Hashtable<String, Integer> _featureMapping;
-	private static String _dataFileName = "domain_mappping.txt";
+	private static String _dataFileName = "domain.conf";
 	public DomainFeatureHandler(String dataDir, int featureSetId) throws IOException
 	{
 		_featureSet = new FeatureSetInfo(featureSetId,"DomainFeature");
@@ -27,7 +28,8 @@ public class DomainFeatureHandler implements IFeatureHandler
 		String domainHash = rtbInst.GetDomainHash();
 		if(_featureMapping.containsKey(domainHash));
 		{
-			int localId = _featureMapping.get(domainHash);
+//			int localId = _featureMapping.get(domainHash);
+			long localId = NumericalUtil.getMd5_64(domainHash);
 			features.add(new Feature(_featureSet,localId,1));
 		}
 		return features;

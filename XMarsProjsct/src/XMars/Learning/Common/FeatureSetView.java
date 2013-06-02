@@ -26,7 +26,7 @@ public class FeatureSetView
 	}
 	public Long[] GetFeatureIdList()
 	{
-		Long[] keyList =  (Long[]) FeatureCount.keySet().toArray();
+		Long[] keyList = FeatureCount.keySet().toArray(new Long[1]);
 		return keyList;
 	}
 	

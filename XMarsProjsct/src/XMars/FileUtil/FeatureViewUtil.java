@@ -19,7 +19,7 @@ public class FeatureViewUtil
 	public static FeatureSetInfo createFeatureSetFromString(String str)
 	{
 		int spliterIndex = str.indexOf("=");
-		int featureSetId = Integer.parseInt(str.substring(10, spliterIndex -1 ));
+		int featureSetId = Integer.parseInt(str.substring(10, spliterIndex));
 		String description = str.substring(spliterIndex + 1);
 		return new FeatureSetInfo(featureSetId,description);
 	}
@@ -42,7 +42,7 @@ public class FeatureViewUtil
 			FeatureImpInfo imp = featureImpList.get(i);
 			writer.write("" + imp.FeatureId);
 			writer.write(":");
-			writer.write(imp.ImpCount);
+			writer.write("" + imp.ImpCount);
 			writer.write("\n");
 		}
 		writer.write(_featureSetSplitLine);
@@ -66,11 +66,14 @@ public class FeatureViewUtil
 		while(true)
 		{
 			String line = reader.readLine();
-			if(line == null || line == _featureSetSplitLine)
+			if(line == null || line.trim() == _featureSetSplitLine)
 			{
 				break;
 			}
 			String[] fields = line.split(":");
+			if (fields.length < 2) {
+				break;
+			}
 			long featureId = Long.parseLong(fields[0]);
 			int featureImp = Integer.parseInt(fields[1]);
 			featureSetView.FeatureCount.put(featureId, new FeatureImpInfo(featureId,featureImp));

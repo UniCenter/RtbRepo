@@ -5,25 +5,19 @@ package XMars.Test;
 
 import java.io.IOException;
 
-import XMars.Applications.RTB.RTBDataReader;
-import XMars.Applications.RTB.RTBInstance;
-import XMars.Learning.Common.DataItem;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
-public class XUniTest {
-	/**
-	 * @param args
-	 * @throws IOException 
-	 */
+public class XUniTest extends TestCase{
+	
 	public static void main(String[] args) throws IOException {
-		System.out.println("Application RTB Test");
-		RTBDataReader reader = new RTBDataReader("data/clk.20130311.txt");
-		while(!reader.EndOfFile())
-		{
-			RTBInstance rtbInst = reader.ReadRecord();
-//			DataItem dataItem = extractor.ExtractFeature(rtbInst);
-			System.out.println("key:" + rtbInst.GetRegionCode());
-		}
-		reader.Close();
+		junit.textui.TestRunner.run(suite());
 	}
-
+	
+    public static Test suite() {
+        TestSuite suite = new TestSuite("All JUnit Tests");
+        suite.addTest(ReaderTest.suite());
+        return suite;
+    }
 }
