@@ -28,20 +28,46 @@ public class NumericalUtil {
 	    return sb.toString();
 	}
 	
-	//TODO, 这个函数写的有问题，直接把MD5签名转成long 会溢出，现在做法是去1-7的byte，去掉了0位置的byte
-	public static long getMd5_64(String str){
+	public static String getMd5String_64(String str){
 		MessageDigest md5;
-		long md5Value = 0;
+		String md5str = "";
+		StringBuffer sb = new StringBuffer();
 		try {
 			md5 = MessageDigest.getInstance("MD5");
-			byte[] results = md5.digest(str.getBytes()); 
-		    for (int i = 0; i < 4; i++) {
-		        md5Value += (0xFF & results[i]) << ((4-i)*8);
+			byte[] results = md5.digest(str.getBytes());
+			// here is trick to fix overflow problem
+			md5str = Integer.toHexString(results[0] & 0x0F);
+			sb.append(md5str.toUpperCase());
+			for (int i=1;i<results.length/2;i++) {
+		        md5str = Integer.toHexString((results[i] & 0x0F + results[i+results.length/2] & 0xFF) & 0xFF);
+		        if (md5str.length() == 1) {
+		        	sb.append("0").append(md5str.toUpperCase());
+		        }
+		        else {
+		        	sb.append(md5str.toUpperCase());
+		        }
 			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-	    return md5Value & 0xFFFFFFF;
+	    return sb.toString();
+	}
+	
+	public static long getMd5Long_64(String str){
+		MessageDigest md5;
+		long md5Value = 0;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+			byte[] results = md5.digest(str.getBytes());
+			// here is trick to fix overflow problem
+			md5Value += (results[0] & 0x0F)<<56;
+			for (int i=1;i<results.length/2;i++) {
+				md5Value += ((results[i] & 0x0F + results[i+results.length/2] & 0xFF) & 0xFF) << (results.length/2-1-i)*8;
+			}
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	    return md5Value;
 	}
 
 	/**
@@ -51,7 +77,7 @@ public class NumericalUtil {
 		String domain = "trqRTu1ojqN-gMKzwFnWvpdh";
 		String md5str = NumericalUtil.getMd5String_128(domain);
 		System.out.println("md5_128:" + md5str);
-		long md5Value = NumericalUtil.getMd5_64(domain);
+		long md5Value = NumericalUtil.getMd5Long_64(domain);
 		System.out.println("md5_64:" + md5Value);
 	}
 

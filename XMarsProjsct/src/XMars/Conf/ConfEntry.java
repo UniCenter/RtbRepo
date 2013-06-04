@@ -1,40 +1,23 @@
 package XMars.Conf;
 
 public class ConfEntry {
-	private String resourceName;
-	private String resourceFileName;
-	private String resourceSize;
-	private String resourceValue;
-	private String resourceType;
+	private String name;
+	private String value;
 	
-	public String getResourceSize() {
-		return resourceSize;
+	public String getName() {
+		return name;
 	}
-	public void setResourceSize(String resourceSize) {
-		this.resourceSize = resourceSize;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getResourceName() {
-		return resourceName;
+	public String getValue() {
+		return value;
 	}
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
+	public void setValue(String value) {
+		this.value = value;
 	}
-	public String getResourceFileName() {
-		return resourceFileName;
-	}
-	public void setResourceFileName(String resourceFileName) {
-		this.resourceFileName = resourceFileName;
-	}
-	public String getResourceValue() {
-		return resourceValue;
-	}
-	public void setResourceValue(String resourceValue) {
-		this.resourceValue = resourceValue;
-	}
-	public String getResourceType() {
-		return resourceType;
-	}
-	public void setResourceType(String resourceType) {
-		this.resourceType = resourceType;
+	
+	public String toString() {
+		return this.name + " : " + this.value;
 	}
 }

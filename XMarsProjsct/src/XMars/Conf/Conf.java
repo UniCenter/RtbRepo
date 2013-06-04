@@ -4,14 +4,17 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Conf {
 	private HashMap<String, ConfEntry> _conf = new HashMap<String, ConfEntry>(1024);
-	private String _confFileName = "conf/XMars.conf";
+	private String _confPath = "conf/";
+	private String _confFile = "XMars.conf";
 	
 	public Conf() {
+		String confFileName = this._confPath + this._confFile; 
 		try {
-			if (!this.loadConf(this._confFileName)) {
+			if (!this.readConf(confFileName)) {
 				System.out.println("[Error][loadConf failed]");
 			}
 		} catch (IOException e) {
@@ -19,10 +22,12 @@ public class Conf {
 		}
 	}
 	
-	public Conf(String confPath, String confFileName) {
-		this._confFileName = confPath + "/" + confFileName;
+	public Conf(String confPath, String confFile) {
+		this._confPath = confPath;
+		this._confFile = confFile;
+		String confFileName = this._confPath + this._confFile; 
 		try {
-			if (!this.loadConf(this._confFileName)) {
+			if (!this.readConf(confFileName)) {
 				System.out.println("[Error][loadConf failed]");
 			}
 		} catch (IOException e) {
@@ -30,65 +35,34 @@ public class Conf {
 		}
 	}
 	
-	private boolean loadConf(String confFileName) throws IOException {
+	private boolean readConf(String confFileName) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(confFileName));
 		if (reader == null) {
 			return false;
 		}
 		
 		String line = "";
-		String filenameLine = "";
-		String sizeLine = "";
-		String typeLine = "";
-		String valueLine = "";
 		while ((line=reader.readLine()) != null) {
 			if (line.matches("^#.*") || line.trim().equals("")) {
 				continue;
 			}
 			
-			if (line.startsWith("[") && line.endsWith("]")) {
-				ConfEntry entry = new ConfEntry();
-				entry.setResourceName(line.trim().replace("[", "").replace("]", ""));
+			String fields[] = line.split(":");
+			if (fields.length != 2) {
+				System.out.println("[Error][Invalid conf entry " + line.trim() + "]");
+				continue;
+			}
+			
+			ConfEntry entry = new ConfEntry();
+			entry.setName(fields[0]);
+			entry.setValue(fields[1]);
 				
-				filenameLine = reader.readLine();
-				sizeLine = reader.readLine();
-				typeLine = reader.readLine();
-				valueLine = reader.readLine();
-				
-				String fields[] = filenameLine.split(":");
-				if (fields.length != 2 || !fields[0].trim().equals("filename")) {
-					System.out.println("[Error][loadConf][invalid line: " + filenameLine);
-					return false;
-				}
-				entry.setResourceFileName(fields[1].trim());
-				
-				fields = sizeLine.split(":");
-				if (fields.length != 2 || !fields[0].trim().equals("size")) {
-					System.out.println("[Error][loadConf][invalid line: " + sizeLine);
-					return false;
-				}
-				entry.setResourceSize(fields[1].trim());
-				
-				fields = typeLine.split(":");
-				if (fields.length != 2 || !fields[0].trim().equals("type")) {
-					System.out.println("[Error][loadConf][invalid line: " + typeLine);
-					return false;
-				}
-				entry.setResourceType(fields[1].trim());
-				
-				fields = valueLine.split(":");
-				if (fields.length != 2 || !fields[0].trim().equals("value")) {
-					System.out.println("[Error][loadConf][invalid line: " + valueLine);
-					return false;
-				}
-				entry.setResourceValue(fields[1].trim());
-				
-				if (!this.checkConfEntry(entry)) {
-					return false;
-				}
-				else {
-					this._conf.put(entry.getResourceName(), entry);
-				}
+			if (!this.checkConfEntry(entry)) {
+				System.out.println("[Error][check conf entry failed" + line);
+				return false;
+			}
+			else {
+				this._conf.put(entry.getName(), entry);
 			}
 		}
 		
@@ -96,43 +70,78 @@ public class Conf {
 	}
 	
 	private boolean checkConfEntry(ConfEntry entry) {
-		if (entry.getResourceName().trim().equals("")) {
-			System.out.println("[Error][loadConf][resource name is empty]");
+		if (entry.getName().equals("")) {
+			System.out.println("[Error][Empty Name is not Allowed!]" + entry.toString());
 			return false;
 		}
 		
-		if (this._conf.containsKey(entry.getResourceName())) {
-			System.out.println("[Error][loadConf][resource name is already in conf]");
+		if (this._conf.containsKey(entry.getName())) {
+			System.out.println("[Error][Conf Name Conflict]" + entry.toString());
 			return false;
 		}
 		
-		if (entry.getResourceType() == "file" && entry.getResourceFileName()=="") {
-			System.out.println("[Error][loadConf][rsource filename is illegal, not allow empty]");
-			return false;
-		}
-		
-		if (entry.getResourceType()=="text" && entry.getResourceValue()=="") {
-			System.out.println("[Error][loadConf][rsource value is illegal, not allow empty]");
-			return false;
-		}
+		//TODO, sometimes you need to check conf entry value range
 		return true;
-	}
-	
-	public HashMap<String, ConfEntry> getConf() {
-		return this._conf;
 	}
 	
 	public ConfEntry getConfEntry(String name) {
 		return this._conf.get(name);
 	}
 	
+	public Short getConfShort(String name) {
+		if (!this._conf.containsKey(name)) {
+			System.out.println("[Error][Unexist Conf Entry]");
+			return null;
+		}
+		return Short.parseShort(this._conf.get(name).getValue());
+	}
+	
+	public Integer getConfInt(String name) {
+		if (!this._conf.containsKey(name)) {
+			System.out.println("[Error][Unexist Conf Entry]");
+			return null;
+		}
+		return Integer.parseInt(this._conf.get(name).getValue());
+	}
+	
+	public Double getConfDouble(String name) {
+		if (!this._conf.containsKey(name)) {
+			System.out.println("[Error][Unexist Conf Entry]");
+			return null;
+		}
+		return Double.parseDouble(this._conf.get(name).getValue());
+	}
+	
+	public Long getConfLong(String name) {
+		if (!this._conf.containsKey(name)) {
+			System.out.println("[Error][Unexist Conf Entry]");
+			return null;
+		}
+		return Long.parseLong(this._conf.get(name).getValue());
+	}
+	
+	public String getConfString(String name) {
+		if (!this._conf.containsKey(name)) {
+			System.out.println("[Error][Unexist Conf Entry]");
+			return null;
+		}
+		return this._conf.get(name).getValue();
+	}
+	
 	public String toString() {
-		return this._conf.toString();
+		StringBuffer sb = new StringBuffer();
+		Iterator<String> itr = this._conf.keySet().iterator();
+		while (itr.hasNext()) {
+			String name = (String)itr.next();
+			sb.append(name + " : " + this._conf.get(name).getValue() + "\n");
+		}
+		
+		return sb.toString();
 	}
 
 	public static void main(String[] args) throws IOException {
 		Conf conf = new Conf();
-		System.out.println(conf._conf.get("domain").getResourceFileName());
+		System.out.println(conf.toString());
 	}
 
 }
