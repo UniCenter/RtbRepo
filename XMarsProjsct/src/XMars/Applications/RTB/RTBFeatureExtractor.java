@@ -2,6 +2,7 @@ package XMars.Applications.RTB;
 import java.io.IOException;
 
 import XMars.Learning.Common.*;
+import XMars.Applications.RTB.FeatureHandler.DomainFeatureHandler;
 import XMars.FeatureExtractor.Framework.*;
 
 public class RTBFeatureExtractor 

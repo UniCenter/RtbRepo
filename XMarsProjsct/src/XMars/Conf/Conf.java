@@ -14,7 +14,7 @@ public class Conf {
 	public Conf() {
 		String confFileName = this._confPath + this._confFile; 
 		try {
-			if (!this.readConf(confFileName)) {
+			if (!this.loadConf(confFileName)) {
 				System.out.println("[Error][loadConf failed]");
 			}
 		} catch (IOException e) {
@@ -27,7 +27,7 @@ public class Conf {
 		this._confFile = confFile;
 		String confFileName = this._confPath + this._confFile; 
 		try {
-			if (!this.readConf(confFileName)) {
+			if (!this.loadConf(confFileName)) {
 				System.out.println("[Error][loadConf failed]");
 			}
 		} catch (IOException e) {
@@ -35,7 +35,7 @@ public class Conf {
 		}
 	}
 	
-	private boolean readConf(String confFileName) throws IOException {
+	private boolean loadConf(String confFileName) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(confFileName));
 		if (reader == null) {
 			return false;

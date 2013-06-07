@@ -1,6 +1,8 @@
-package XMars.Applications.RTB;
+package XMars.Applications.RTB.FeatureHandler;
 import XMars.Learning.Common.*;
 import XMars.Util.NumericalUtil;
+import XMars.Applications.RTB.AppConf;
+import XMars.Applications.RTB.RTBInstance;
 import XMars.FileUtil.*;
 import XMars.FeatureExtractor.Framework.*;
 
@@ -11,15 +13,17 @@ public class DomainFeatureHandler implements IFeatureHandler
 {
 	private static FeatureSetInfo _featureSet;
 	private Hashtable<String, Integer> _featureMapping;
-	private static String _dataFileName = "domain.conf";
+	private static String _domainFileName = AppConf.getDomain();
+	
 	public DomainFeatureHandler(String dataDir, int featureSetId) throws IOException
 	{
 		_featureSet = new FeatureSetInfo(featureSetId,"DomainFeature");
-		String dataPath = dataDir + _dataFileName;
+		String dataPath = dataDir + _domainFileName;
 		File dataFile = new File(dataPath);
 		BufferedReader reader = new BufferedReader(new FileReader(dataFile));
 		_featureMapping = HashSerializer.LoadStringHashtable(reader, "\t", 0, 1);
 	}
+	
 	@Override
 	public Vector<Feature> ExtractFeature(DataInstance dataInst) 
 	{
@@ -29,7 +33,7 @@ public class DomainFeatureHandler implements IFeatureHandler
 		if(_featureMapping.containsKey(domainHash));
 		{
 //			int localId = _featureMapping.get(domainHash);
-			long localId = NumericalUtil.getMd5_64(domainHash);
+			long localId = NumericalUtil.getLocalId(1, domainHash);
 			features.add(new Feature(_featureSet,localId,1));
 		}
 		return features;
