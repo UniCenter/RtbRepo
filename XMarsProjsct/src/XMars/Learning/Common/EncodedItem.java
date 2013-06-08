@@ -14,4 +14,8 @@ public final class EncodedItem
 	{
 		
 	}
+	
+	public void setTargetValue(int targetValue) {
+		TargetValue = targetValue;
+	}
 }

@@ -22,15 +22,20 @@ public class AppConf {
 	private static String modelFile;
 	private static String predictionFile;
 	
+	
+	private static String adSlotIDFile;
+	private static String cookieFile;
+	private static String creativeIDFile;
+	
 	public static void readConf(Conf conf) {
 		logPath = conf.getConfString("log_path");
-		logFile = conf.getConfString("log_file");
+		logFile = conf.getConfString("log_name");
 		logLevel = conf.getConfInt("log_level");
 		logSize = conf.getConfInt("log_size");
 	
 		inputDir = conf.getConfString("input_dir");
 		dataDir = conf.getConfString("data_dir");
-		resultDir = conf.getConfString("resultDir");
+		resultDir = conf.getConfString("result_dir");
 		
 		pvclicklog = conf.getConfString("pvclicklog");
 		domain = conf.getConfString("domain");
@@ -41,9 +46,25 @@ public class AppConf {
 		crossValidationFile = conf.getConfString("cross_validation");
 		modelFile = conf.getConfString("model");
 		predictionFile = conf.getConfString("predict");
+		
+		adSlotIDFile = conf.getConfString("adSlotID");
+		cookieFile = conf.getConfString("cookie");
+		creativeIDFile = conf.getConfString("creativeID");
 	}
 
-	
+	public static String getCreativeIDFile() {
+		return creativeIDFile;
+	}
+
+	public static String getCookieFile() {
+		return cookieFile;
+	}
+
+	public static String getAdSlotIDFile() {
+		return adSlotIDFile;
+	}
+
+
 
 	public static String getPredictionFile() {
 		return predictionFile;

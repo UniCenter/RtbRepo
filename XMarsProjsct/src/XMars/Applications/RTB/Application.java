@@ -14,6 +14,7 @@ public class Application
 		AppConf.readConf(_conf);
 		Logger.init(AppConf.getLogPath(), AppConf.getLogFile(), 
 				AppConf.getLogSize(), AppConf.getLogLevel());
+		Logger.debug("start process now");
 	}
 	
 	public void AnalysisAndExtractFeature(String inputDir,String dataDir,String resultDir) throws IOException
@@ -39,7 +40,7 @@ public class Application
 	public void GenerateTrainingData(String inputDir,String dataDir,String resultDir) throws IOException
 	{
 		RTBFeatureExtractor extractor = new RTBFeatureExtractor(dataDir);
-		FeatureOverview overview = FeatureViewUtil.LoadOverviewFromFIle(dataDir + AppConf.getFeatureViewFile());
+		FeatureOverview overview = FeatureViewUtil.LoadOverviewFromFIle(resultDir + AppConf.getFeatureViewFile());
 		CompactFeatureEncoder featureEncoder = new CompactFeatureEncoder(overview);
 		ItemEncoder itemEncoder=new ItemEncoder(featureEncoder);
 		LibLinearWriter writer = new LibLinearWriter(resultDir + AppConf.getTrainSampleFile());
@@ -50,6 +51,7 @@ public class Application
 		{
 			DataItem dataItem = extractor.ExtractFeature(rtbInst);
 			EncodedItem encodedItem = itemEncoder.EncodeItem(dataItem);
+			encodedItem.setTargetValue(rtbInst.getTargetValue());
 			writer.WriteInstance(encodedItem);
 			rtbInst = reader.ReadRecord();
 		}
@@ -81,5 +83,8 @@ public class Application
 		reader.Close();
 	}
 	
+	public void close() throws IOException {
+		Logger.close();
+	}
 	
 }

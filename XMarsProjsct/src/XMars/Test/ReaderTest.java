@@ -42,6 +42,6 @@ public class ReaderTest extends TestCase{
     }
     
     public void testAdSloatFormat() throws IOException {
-    	assertTrue(this._reader.ReadRecord().GetSlotType()>0);
+    	assertTrue(this._reader.ReadRecord().getAdExchange()>0);
     }
 }

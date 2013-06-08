@@ -1,16 +1,17 @@
 package XMars.FileUtil;
 import java.io.*;
 import java.util.*;
-import XMars.Learning.Common.*;;
+import XMars.Learning.Common.*;
+import XMars.Logger.Logger;
 
 public class FeatureViewUtil 
 {
 	private static String _featureSetSplitLine = "*****************";
 	
-	private static int GetPropertyValue(String str)//,String spliter)
+	private static long GetPropertyValue(String str)//,String spliter)
 	{
 		int spliterIndex = str.indexOf("=");
-		return Integer.parseInt(str.substring(spliterIndex + 1));
+		return Long.parseLong(str.substring(spliterIndex + 1));
 	}
 	private static String featureSetToString(FeatureSetInfo featureSet)
 	{
@@ -56,12 +57,12 @@ public class FeatureViewUtil
 		FeatureSetInfo featureSet = createFeatureSetFromString(strFeatureSetInfo);
 		FeatureSetView featureSetView = new FeatureSetView(featureSet);
 		//必须严格按照写入顺序读取
-		featureSetView.ItemCount = GetPropertyValue(reader.readLine());
+		featureSetView.ItemCount = (int) GetPropertyValue(reader.readLine());
 		featureSetView.MaxFeatureId = GetPropertyValue(reader.readLine());
-		featureSetView.MaxFeatureValue = GetPropertyValue(reader.readLine());
+		featureSetView.MaxFeatureValue = (int) GetPropertyValue(reader.readLine());
 		featureSetView.MinFeatureId = GetPropertyValue(reader.readLine());
-		featureSetView.MinFeatureValue = GetPropertyValue(reader.readLine());
-		featureSetView.TotalFeatureCount = GetPropertyValue(reader.readLine());
+		featureSetView.MinFeatureValue = (int) GetPropertyValue(reader.readLine());
+		featureSetView.TotalFeatureCount = (int) GetPropertyValue(reader.readLine());
 		reader.readLine();
 		while(true)
 		{

@@ -18,7 +18,7 @@ public class DomainFeatureHandler implements IFeatureHandler
 	public DomainFeatureHandler(String dataDir, int featureSetId) throws IOException
 	{
 		_featureSet = new FeatureSetInfo(featureSetId,"DomainFeature");
-		String dataPath = dataDir + _domainFileName;
+		String dataPath = dataDir + "/" + _domainFileName;
 		File dataFile = new File(dataPath);
 		BufferedReader reader = new BufferedReader(new FileReader(dataFile));
 		_featureMapping = HashSerializer.LoadStringHashtable(reader, "\t", 0, 1);
@@ -29,12 +29,11 @@ public class DomainFeatureHandler implements IFeatureHandler
 	{
 		RTBInstance rtbInst = (RTBInstance)dataInst;
 		Vector<Feature> features = new Vector<Feature>();
-		String domainHash = rtbInst.GetDomainHash();
+		String domainHash = rtbInst.getDomain();
 		if(_featureMapping.containsKey(domainHash));
 		{
-//			int localId = _featureMapping.get(domainHash);
-			long localId = NumericalUtil.getLocalId(1, domainHash);
-			features.add(new Feature(_featureSet,localId,1));
+			long localId = NumericalUtil.getLocalId(_featureSet.GetFeatureSetId(), domainHash);
+			features.add(new Feature(_featureSet, localId, 1));
 		}
 		return features;
 	}

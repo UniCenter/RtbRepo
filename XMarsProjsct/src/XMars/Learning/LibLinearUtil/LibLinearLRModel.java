@@ -24,7 +24,7 @@ public class LibLinearLRModel extends Model
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 			int index = 0;
 			while ((line=br.readLine()) != null) {
-				if (line.matches("^#.*") || !line.matches("^\\d+(\\.\\d+)?$") || line.trim().endsWith("")) {
+				if (line.matches("^#.*") || !line.matches("^\\d+(\\.\\d+)?$") || line.trim().equals("")) {
 					continue;
 				}
 				if (index == 0) {

@@ -54,8 +54,8 @@ public class Conf {
 			}
 			
 			ConfEntry entry = new ConfEntry();
-			entry.setName(fields[0]);
-			entry.setValue(fields[1]);
+			entry.setName(fields[0].trim());
+			entry.setValue(fields[1].trim());
 				
 			if (!this.checkConfEntry(entry)) {
 				System.out.println("[Error][check conf entry failed" + line);
@@ -85,12 +85,17 @@ public class Conf {
 	}
 	
 	public ConfEntry getConfEntry(String name) {
-		return this._conf.get(name);
+		if (this._conf.containsKey(name)) {
+			return this._conf.get(name);
+		}
+		
+		System.out.print("[Error][Unexist Conf Entry]"  + name);
+		return null;
 	}
 	
 	public Short getConfShort(String name) {
 		if (!this._conf.containsKey(name)) {
-			System.out.println("[Error][Unexist Conf Entry]");
+			System.out.println("[Error][Unexist Conf Entry]" + name);
 			return null;
 		}
 		return Short.parseShort(this._conf.get(name).getValue());
@@ -98,7 +103,7 @@ public class Conf {
 	
 	public Integer getConfInt(String name) {
 		if (!this._conf.containsKey(name)) {
-			System.out.println("[Error][Unexist Conf Entry]");
+			System.out.println("[Error][Unexist Conf Entry]" + name);
 			return null;
 		}
 		return Integer.parseInt(this._conf.get(name).getValue());
@@ -106,7 +111,7 @@ public class Conf {
 	
 	public Double getConfDouble(String name) {
 		if (!this._conf.containsKey(name)) {
-			System.out.println("[Error][Unexist Conf Entry]");
+			System.out.println("[Error][Unexist Conf Entry]" + name);
 			return null;
 		}
 		return Double.parseDouble(this._conf.get(name).getValue());
@@ -114,7 +119,7 @@ public class Conf {
 	
 	public Long getConfLong(String name) {
 		if (!this._conf.containsKey(name)) {
-			System.out.println("[Error][Unexist Conf Entry]");
+			System.out.println("[Error][Unexist Conf Entry]" + name);
 			return null;
 		}
 		return Long.parseLong(this._conf.get(name).getValue());
@@ -122,7 +127,7 @@ public class Conf {
 	
 	public String getConfString(String name) {
 		if (!this._conf.containsKey(name)) {
-			System.out.println("[Error][Unexist Conf Entry]");
+			System.out.println("[Error][Unexist Conf Entry]" + name);
 			return null;
 		}
 		return this._conf.get(name).getValue();
